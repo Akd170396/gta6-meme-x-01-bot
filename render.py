@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Render the GTA 6 meme: AI illustration + crisp caption text.
 
-The base illustration (media-generation-gta6-meme-chucky-base-*.png) was made
-with an image generator and carries no text on purpose. This script adds the
+The base illustration (media-generation-gta6-meme-ghost-chucky-base-*.png) was
+made with an image generator and carries no text on purpose. This script adds the
 caption bands and the bus-stop sign text with PIL so every letter is spelled
 right and stays readable when the picture is shrunk to 480x480.
 """
@@ -43,7 +43,7 @@ def centered(draw, text, font, cx, cy, fill):
 
 
 def main():
-    base_path = sorted(glob.glob(str(REPO / "media-generation-gta6-meme-chucky-base-*.png")))[0]
+    base_path = sorted(glob.glob(str(REPO / "media-generation-gta6-meme-ghost-chucky-base-*.png")))[0]
     img = Image.open(base_path).convert("RGB")
     width, height = img.size
     draw = ImageDraw.Draw(img)
@@ -79,11 +79,11 @@ def main():
         else:
             centered(draw, line, bottom_font, width / 2, cy, WHITE)
 
-    # Bus-stop sign text: the chucky illustration's blank sign is the tall
-    # rounded rectangle on the left, so stack the words upright on it.
-    sign_font = fit_font(draw, "VICE", 165, 64)
-    centered(draw, "VICE", sign_font, 133, 368, (10, 40, 40))
-    centered(draw, "CITY", sign_font, 133, 438, (10, 40, 40))
+    # Bus-stop sign text: the ghost-chucky illustration's blank sign is the
+    # wide rounded rectangle at top right; its lower half stays visible
+    # below the top caption band, so print one line there.
+    sign_font = fit_font(draw, SIGN_TEXT, 290, 64)
+    centered(draw, SIGN_TEXT, sign_font, 1350, 265, (10, 40, 40))
 
     out = REPO / "meme.png"
     img.save(out, "PNG")
